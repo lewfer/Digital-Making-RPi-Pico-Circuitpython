@@ -1,7 +1,6 @@
-# SPDX-FileCopyrightText: 2022 Liz Clark for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-# In lib:
+# Test Adafruit IO 
+#
+# In the lib directory, make sure you have:
 # adafruit_requests.mpy
 # adafruit_io
 # adafruit_minimqtt
@@ -9,23 +8,23 @@
 import os
 import time
 import ssl
-import wifi
-import socketpool
 import microcontroller
 import board
 import busio
 import adafruit_requests
 from adafruit_io.adafruit_io import IO_HTTP, AdafruitIO_RequestError
+import network
 
 # Connect to wifi
-wifi.radio.connect(os.getenv('CIRCUITPY_WIFI_SSID'), os.getenv('CIRCUITPY_WIFI_PASSWORD'))
+net = network.Network()
+net.connectWifi()
 
 # Get Adafruit io credentials
 aio_username = os.getenv('aio_username')
 aio_key = os.getenv('aio_key')
 
 # Initialize an Adafruit IO HTTP API object
-pool = socketpool.SocketPool(wifi.radio)
+pool = net.socketPool()
 requests = adafruit_requests.Session(pool, ssl.create_default_context())
 io = IO_HTTP(aio_username, aio_key, requests)
 print("connected to io")

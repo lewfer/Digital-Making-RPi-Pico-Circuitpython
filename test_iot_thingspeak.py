@@ -6,18 +6,18 @@
 import os
 import time
 import ssl
-import wifi
-import socketpool
 import adafruit_requests
+import network
 
 # Connect to wifi
-wifi.radio.connect(os.getenv('CIRCUITPY_WIFI_SSID'), os.getenv('CIRCUITPY_WIFI_PASSWORD'))
+net = network.Network()
+net.connectWifi()
 
 # Get Adafruit io credentials
 THINGSPEAK_WRITE_API_KEY = os.getenv('THINGSPEAK_WRITE_API_KEY')
 
 # Initialize an Adafruit IO HTTP API object
-pool = socketpool.SocketPool(wifi.radio)
+pool = net.socketPool()
 requests = adafruit_requests.Session(pool, ssl.create_default_context())
 
 # Create an http connection to talk to api

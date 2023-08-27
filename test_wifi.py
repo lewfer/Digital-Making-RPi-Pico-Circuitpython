@@ -5,31 +5,20 @@
 # CIRCUITPY_WIFI_SSID="YOURWIFISSID"
 # CIRCUITPY_WIFI_PASSWORD="YOURPASSWORD"
 #
-# https://learn.adafruit.com/pico-w-wifi-with-circuitpython/pico-w-basic-wifi-test
 
+import network
 
-import os
-import ipaddress
-import wifi
-import socketpool
-    
-print()
-print("Connecting to WiFi")
+# Create a network object
+net = network.Network()
 
-#  Connect to your SSID
-wifi.radio.connect(os.getenv('CIRCUITPY_WIFI_SSID'), os.getenv('CIRCUITPY_WIFI_PASSWORD'))
+# Connect to the wifi
+net.connectWifi()
 
-print("Connected to WiFi")
-
-pool = socketpool.SocketPool(wifi.radio)
-
-#  prints MAC address to REPL
-print("My MAC addr:", [hex(i) for i in wifi.radio.mac_address])
-
-#  prints IP address to REPL
-print("My IP address is", wifi.radio.ipv4_address)
-
-#  pings Google
-ipv4 = ipaddress.ip_address("8.8.4.4")
-print("Ping google.com: %f ms" % (wifi.radio.ping(ipv4)*1000))
+#  Test network by pinging Google
+ipv4 = network.ipaddress.ip_address("8.8.4.4")
+pingTime = network.wifi.radio.ping(ipv4)
+if pingTime!=None:
+    print("Ping google.com: %f ms" % (pingTime*1000))
+else:
+    print("Could not ping Google")
 
