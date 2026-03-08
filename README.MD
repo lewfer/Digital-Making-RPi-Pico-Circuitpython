@@ -2,4 +2,6 @@
 
 Code samples for use with the Raspberry Pi Pico and Circuitpython.
 
+Currently works with CircuitPython 10
+
 Please go to [www.thinkcreatelearn.co.uk](www.thinkcreatelearn.co.uk) for more details.
